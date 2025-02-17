@@ -1,8 +1,15 @@
 package extensivWms
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
-type Order struct {
+type OrderService interface {
+	Get(context.Context, uint64)
+}
+
+type CreateOrder struct {
 	CustomerIdentifier             *CustomerIdentifier             `json:"customerIdentifier"`
 	FacilityIdentifier             *FacilityIdentifier             `json:"facilityIdentifier"`
 	WarehouseTransactionSourceEnum *WarehouseTransactionSourceEnum `json:"warehouseTransactionSourceEnum"`
@@ -237,4 +244,38 @@ type OrderItemInPackage struct {
 type PackageIdentifier struct {
 	Name *string `json:"name"`
 	Id   *int    `json:"id"`
+}
+
+type GetOrder struct {
+	ReadOnly *ReadOnly `json:"readOnly"`
+}
+
+type ReadOnly struct {
+	OrderId                        *int             `json:"orderId"`
+	AsnCandidate                   *int             `json:"asnCandidate"`
+	RouteCandidate                 *int             `json:"routeCandidate"`
+	FullyAllocated                 *bool            `json:"fullyAllocated"`
+	ImportModuleId                 *int             `json:"importModuleId"`
+	ExportModuleId                 *string          `json:"exportModuleId"`
+	DeferNotification              *bool            `json:"deferNotification"`
+	IsClosed                       *bool            `json:"isClosed"`
+	ProcessDate                    *time.Time       `json:"processDate"`
+	PickDoneDate                   *time.Time       `json:"pickDoneDate"`
+	PickTicketPrintDate            *time.Time       `json:"pickTicketPrintDate"`
+	PackDoneDate                   *time.Time       `json:"packDoneDate"`
+	LabelIsExported                *bool            `json:"labelIsExported"`
+	InvoiceExportedDate            *time.Time       `json:"invoiceExportedDate"`
+	InvoiceDeliveredDate           *time.Time       `json:"invoiceDeliveredDate"`
+	LoadedState                    *int             `json:"loadedState"`
+	LoadOutDoneDate                *time.Time       `json:"loadOutDoneDate"`
+	ReallocatedAfterPickTicketDate *time.Time       `json:"reallocatedAfterPickTicketDate"`
+	RouteSent                      *bool            `json:"routeSent"`
+	AsnSentDate                    *time.Time       `json:"asnSentDate"`
+	PkgsExported                   *bool            `json:"pkgsExported"`
+	BatchIdentifier                *BatchIdentifier `json:"batchIdentifier"`
+}
+
+type BatchIdentifier struct {
+	NameKey *NameKey `json:"nameKey"`
+	Id      *int     `json:"id"`
 }
