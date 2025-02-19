@@ -5,8 +5,12 @@ import (
 	"time"
 )
 
+const (
+	orderPath = "orders"
+)
+
 type OrderService interface {
-	Get(context.Context, uint64, interface{}) (*GetOrder, error)
+	Get(context.Context, int64, interface{}) (*GetOrder, error)
 }
 
 type OrderSerivceOp struct {
@@ -78,16 +82,16 @@ type OrderItem struct {
 
 type CustomerIdentifier struct {
 	Name       *string `json:"name,omitempty"`
-	Id         *int    `json:"id,omitempty"`
+	Id         *int64  `json:"id,omitempty"`
 	ExternalId *string `json:"externalId,omitempty"`
 }
 
 type FacilityIdentifier struct {
 	Name *string `json:"name,omitempty"`
-	Id   *int    `json:"id,omitempty"`
+	Id   *int64  `json:"id,omitempty"`
 }
 
-type WarehouseTransactionSourceEnum int
+type WarehouseTransactionSourceEnum int64
 
 const (
 	UiManual WarehouseTransactionSourceEnum = iota
@@ -99,7 +103,7 @@ const (
 	RestApi
 )
 
-type TransactionEntryTypeEnum int
+type TransactionEntryTypeEnum int64
 
 const (
 	ManualWarehouseUser TransactionEntryTypeEnum = iota
@@ -133,7 +137,7 @@ type RoutingInfo struct {
 	Carrier                *string                 `json:"carrier,omitempty"`
 	Mode                   *string                 `json:"mode,omitempty"`
 	Account                *string                 `json:"account,omitempty"`
-	ShipPointZip           *string                 `json:"shipPointZip,omitempty"`
+	ShipPoint64Zip         *string                 `json:"shipPoint64Zip,omitempty"`
 	CapacityTypeIdentifier *CapacityTypeIdentifier `json:"capacityTypeIdentifier,omitempty"`
 	LoadNumber             *string                 `json:"loadNumber,omitempty"`
 	ParcelOption           *ParcelOption           `json:"parcelOption,omitempty"`
@@ -150,19 +154,19 @@ type CapacityTypeIdentifier struct {
 }
 
 type ParcelOption struct {
-	OrderId                   *int                       `json:"orderId,omitempty"`
-	DeliveryConfirmationType  *string                    `json:"deliveryConfirmationType,omitempty"`
-	DeliveryDutyPaid          *int                       `json:"deliveryDutyPaid,omitempty"`
-	DryIceWeight              *float64                   `json:"dryIceWeight,omitempty"`
-	InsuranceAmount           *float64                   `json:"insuranceAmount,omitempty"`
-	InsuranceType             *InsuranceType             `json:"insuranceType,omitempty"`
-	InternationalContentsType *InternationalContentsType `json:"internationalContentsType,omitempty"`
-	InternationalNonDelivery  *InternationalNonDelivery  `json:"internationalNonDelivery,omitempty"`
-	ResidentialFlag           bool                       `json:"residentialFlag,omitempty"`
-	SaturdayDeliveryFlag      bool                       `json:"saturdayDeliveryFlag,omitempty"`
+	OrderId                     *int64                       `json:"orderId,omitempty"`
+	DeliveryConfirmationType    *string                      `json:"deliveryConfirmationType,omitempty"`
+	DeliveryDutyPaid            *int64                       `json:"deliveryDutyPaid,omitempty"`
+	DryIceWeight                *float64                     `json:"dryIceWeight,omitempty"`
+	InsuranceAmount             *float64                     `json:"insuranceAmount,omitempty"`
+	InsuranceType               *InsuranceType               `json:"insuranceType,omitempty"`
+	int64ernationalContentsType *int64ernationalContentsType `json:"int64ernationalContentsType,omitempty"`
+	int64ernationalNonDelivery  *int64ernationalNonDelivery  `json:"int64ernationalNonDelivery,omitempty"`
+	ResidentialFlag             bool                         `json:"residentialFlag,omitempty"`
+	SaturdayDeliveryFlag        bool                         `json:"saturdayDeliveryFlag,omitempty"`
 }
 
-type InsuranceType int
+type InsuranceType int64
 
 const (
 	InsuranceTypeNone       InsuranceType = 0
@@ -170,29 +174,29 @@ const (
 	InsuranceTypeThirdParty InsuranceType = 107
 )
 
-type InternationalContentsType string
+type int64ernationalContentsType string
 
 const (
-	InternationalContentsTypeNone          InternationalContentsType = "none"
-	InternationalContentsTypeDocuments     InternationalContentsType = "documents"
-	InternationalContentsTypeGift          InternationalContentsType = "gift"
-	InternationalContentsTypeMerchandise   InternationalContentsType = "merchandise"
-	InternationalContentsTypeReturnedGoods InternationalContentsType = "returned_goods"
-	InternationalContentsTypeSample        InternationalContentsType = "sample"
+	int64ernationalContentsTypeNone          int64ernationalContentsType = "none"
+	int64ernationalContentsTypeDocuments     int64ernationalContentsType = "documents"
+	int64ernationalContentsTypeGift          int64ernationalContentsType = "gift"
+	int64ernationalContentsTypeMerchandise   int64ernationalContentsType = "merchandise"
+	int64ernationalContentsTypeReturnedGoods int64ernationalContentsType = "returned_goods"
+	int64ernationalContentsTypeSample        int64ernationalContentsType = "sample"
 )
 
-type InternationalNonDelivery string
+type int64ernationalNonDelivery string
 
 const (
-	InternationalNonDeliveryNone             InternationalNonDelivery = "none"
-	InternationalNonDeliveryTreatAsAbandoned InternationalNonDelivery = "treat_as_abandoned"
-	InternationalNonDeliveryReturnToSender   InternationalNonDelivery = "return_to_sender"
+	int64ernationalNonDeliveryNone             int64ernationalNonDelivery = "none"
+	int64ernationalNonDeliveryTreatAsAbandoned int64ernationalNonDelivery = "treat_as_abandoned"
+	int64ernationalNonDeliveryReturnToSender   int64ernationalNonDelivery = "return_to_sender"
 )
 
 type ShipSoldBillTo struct {
 	RetailerInfo  *RetailerInfo `json:"retailerInfo,omitempty"`
 	SameAs        *SameAs       `json:"sameAs,omitempty"`
-	RetailerId    *int          `json:"retailerId,omitempty"`
+	RetailerId    *int64        `json:"retailerId,omitempty"`
 	IsQuickLookup *bool         `json:"isQuickLookup,omitempty"`
 	ContactId     *string       `json:"contactId,omitempty"`
 	CompanyName   *string       `json:"companyName,omitempty"`
@@ -208,10 +212,10 @@ type ShipSoldBillTo struct {
 	EmailAddress  *string       `json:"emailAddress,omitempty"`
 	Dept          *string       `json:"dept,omitempty"`
 	Code          *string       `json:"code,omitempty"`
-	AddressStatus *int          `json:"addressStatus,omitempty"`
+	AddressStatus *int64        `json:"addressStatus,omitempty"`
 }
 
-type SameAs int
+type SameAs int64
 
 const (
 	SameAsShipTo SameAs = iota
@@ -221,7 +225,7 @@ const (
 
 type RetailerInfo struct {
 	NameKey *NameKey `json:"nameKey,omitempty"`
-	Id      *int     `json:"id,omitempty"`
+	Id      *int64   `json:"id,omitempty"`
 }
 
 type NameKey struct {
@@ -233,12 +237,12 @@ type NameKey struct {
 type NameKeyCustomerIdentifier struct {
 	ExternalId *string `json:"externalId,omitempty"`
 	Name       *string `json:"name,omitempty"`
-	Id         *int    `json:"id,omitempty"`
+	Id         *int64  `json:"id,omitempty"`
 }
 
 type ItemIdentifier struct {
 	Sku *string `json:"sku,omitempty"`
-	Id  *int    `json:"id,omitempty"`
+	Id  *int64  `json:"id,omitempty"`
 }
 
 type SavedElement struct {
@@ -247,19 +251,19 @@ type SavedElement struct {
 }
 
 type ProposedAllocation struct {
-	ReceivedItemId *int     `json:"receivedItemId,omitempty"`
+	ReceivedItemId *int64   `json:"receivedItemId,omitempty"`
 	Qty            *float64 `json:"qty,omitempty"`
 }
 
 type OrderItemInPackage struct {
-	PackageNumber     *int               `json:"packageNumber,omitempty"`
+	PackageNumber     *int64             `json:"packageNumber,omitempty"`
 	Quantity          *float64           `json:"quantity,omitempty"`
 	PackageIdentifier *PackageIdentifier `json:"packageIdentifier,omitempty"`
 }
 
 type PackageIdentifier struct {
 	Name *string `json:"name,omitempty"`
-	Id   *int    `json:"id,omitempty"`
+	Id   *int64  `json:"id,omitempty"`
 }
 
 type GetOrder struct {
@@ -298,22 +302,22 @@ type GetOrder struct {
 }
 
 type ReadOnly struct {
-	OrderId                        *int                           `json:"orderId,omitempty"`
-	AsnCandidate                   *int                           `json:"asnCandidate,omitempty"`
-	RouteCandidate                 *int                           `json:"routeCandidate,omitempty"`
+	OrderId                        *int64                         `json:"orderId,omitempty"`
+	AsnCandidate                   *int64                         `json:"asnCandidate,omitempty"`
+	RouteCandidate                 *int64                         `json:"routeCandidate,omitempty"`
 	FullyAllocated                 *bool                          `json:"fullyAllocated,omitempty"`
-	ImportModuleId                 *int                           `json:"importModuleId,omitempty"`
+	ImportModuleId                 *int64                         `json:"importModuleId,omitempty"`
 	ExportModuleId                 *string                        `json:"exportModuleId,omitempty"`
 	DeferNotification              *bool                          `json:"deferNotification,omitempty"`
 	IsClosed                       *bool                          `json:"isClosed,omitempty"`
 	ProcessDate                    *time.Time                     `json:"processDate,omitempty"`
 	PickDoneDate                   *time.Time                     `json:"pickDoneDate,omitempty"`
-	PickTicketPrintDate            *time.Time                     `json:"pickTicketPrintDate,omitempty"`
+	PickTicketPrint64Date          *time.Time                     `json:"pickTicketPrint64Date,omitempty"`
 	PackDoneDate                   *time.Time                     `json:"packDoneDate,omitempty"`
 	LabelIsExported                *bool                          `json:"labelIsExported,omitempty"`
 	InvoiceExportedDate            *time.Time                     `json:"invoiceExportedDate,omitempty"`
 	InvoiceDeliveredDate           *time.Time                     `json:"invoiceDeliveredDate,omitempty"`
-	LoadedState                    *int                           `json:"loadedState,omitempty"`
+	LoadedState                    *int64                         `json:"loadedState,omitempty"`
 	LoadOutDoneDate                *time.Time                     `json:"loadOutDoneDate,omitempty"`
 	ReallocatedAfterPickTicketDate *time.Time                     `json:"reallocatedAfterPickTicketDate,omitempty"`
 	RouteSent                      *bool                          `json:"routeSent,omitempty"`
@@ -322,27 +326,27 @@ type ReadOnly struct {
 	BatchIdentifier                *BatchIdentifier               `json:"batchIdentifier,omitempty"`
 	Packages                       []Package                      `json:"packages,omitempty"`
 	OutboundSerialNumbers          []OutboundSerialNumber         `json:"outboundSerialNumbers,omitempty"`
-	ParcelLabelType                *int                           `json:"parcelLabelType,omitempty"`
+	ParcelLabelType                *int64                         `json:"parcelLabelType,omitempty"`
 	CustomerIdentifier             *CustomerIdentifier            `json:"customerIdentifier,omitempty"`
 	FacilityIdentifier             *FacilityIdentifier            `json:"facilityIdentifier,omitempty"`
-	WarehouseTransactionSourceType *int                           `json:"warehouseTransactionSourceType,omitempty"`
-	TransactionEntryType           *int                           `json:"transactionEntryType,omitempty"`
+	WarehouseTransactionSourceType *int64                         `json:"warehouseTransactionSourceType,omitempty"`
+	TransactionEntryType           *int64                         `json:"transactionEntryType,omitempty"`
 	ImportChannelIdentifier        *ImportChannelIdentifier       `json:"importChannelIdentifier,omitempty"`
 	CreationDate                   *time.Time                     `json:"creationDate,omitempty"`
 	CreatedByIdentifier            *CreatedOrModifiedByIdentifier `json:"createdByIdentifier,omitempty"`
 	LastModifiedDate               *time.Time                     `json:"lastModifiedDate,omitempty"`
 	LastModifiedByIdentifier       *CreatedOrModifiedByIdentifier `json:"lastModifiedByIdentifier,omitempty"`
-	Status                         *int                           `json:"status,omitempty"`
+	Status                         *int64                         `json:"status,omitempty"`
 }
 
 type BatchIdentifier struct {
 	NameKey *NameKey `json:"nameKey,omitempty"`
-	Id      *int     `json:"id,omitempty"`
+	Id      *int64   `json:"id,omitempty"`
 }
 
 type Package struct {
-	PackageId            *int                  `json:"packageId,omitempty"`
-	PackageTypeId        *int                  `json:"packageTypeId,omitempty"`
+	PackageId            *int64                `json:"packageId,omitempty"`
+	PackageTypeId        *int64                `json:"packageTypeId,omitempty"`
 	PackageDefIdentifier *PackageDefIdentifier `json:"packageDefIdentifier,omitempty"`
 	Length               *float64              `json:"length,omitempty"`
 	Width                *float64              `json:"width,omitempty"`
@@ -354,18 +358,18 @@ type Package struct {
 	CreateDate           *time.Time            `json:"createDate,omitempty"`
 	Oversize             *bool                 `json:"oversize,omitempty"`
 	Cod                  *bool                 `json:"cod,omitempty"`
-	Ucc128               *int                  `json:"ucc128,omitempty"`
+	Ucc128               *int64                `json:"ucc128,omitempty"`
 	CartonId             *string               `json:"cartonId,omitempty"`
 	Label                *string               `json:"label,omitempty"`
 	PackageContents      []PackageContent      `json:"packageContents,omitempty"`
 }
 
 type PackageContent struct {
-	PackageContentId         *int       `json:"packageContentId,omitempty"`
-	PackageId                *int       `json:"packageId,omitempty"`
-	OrderItemId              *int       `json:"orderItemId,omitempty"`
-	ReceiveItemId            *int       `json:"receiveItemId,omitempty"`
-	OrderItemPickExceptionId *int       `json:"orderItemPickExceptionId,omitempty"`
+	PackageContentId         *int64     `json:"packageContentId,omitempty"`
+	PackageId                *int64     `json:"packageId,omitempty"`
+	OrderItemId              *int64     `json:"orderItemId,omitempty"`
+	ReceiveItemId            *int64     `json:"receiveItemId,omitempty"`
+	OrderItemPickExceptionId *int64     `json:"orderItemPickExceptionId,omitempty"`
 	Qty                      *float64   `json:"qty,omitempty"`
 	LotNumber                *string    `json:"lotNumber,omitempty"`
 	SerialNumber             *string    `json:"serialNumber,omitempty"`
@@ -376,7 +380,7 @@ type PackageContent struct {
 
 type PackageDefIdentifier struct {
 	Name *string `json:"name,omitempty"`
-	Id   *int    `json:"id,omitempty"`
+	Id   *int64  `json:"id,omitempty"`
 }
 
 type OutboundSerialNumber struct {
@@ -387,12 +391,12 @@ type OutboundSerialNumber struct {
 
 type ImportChannelIdentifier struct {
 	Name *string `json:"name,omitempty"`
-	Id   *int    `json:"id,omitempty"`
+	Id   *int64  `json:"id,omitempty"`
 }
 
 type CreatedOrModifiedByIdentifier struct {
 	Name *string `json:"name,omitempty"`
-	Id   *int    `json:"int,omitempty"`
+	Id   *int64  `json:"int64,omitempty"`
 }
 
 type Billing struct {
@@ -400,13 +404,13 @@ type Billing struct {
 }
 
 type BillingCharge struct {
-	ChargeType *int     `json:"chargeType,omitempty"`
+	ChargeType *int64   `json:"chargeType,omitempty"`
 	Subtotal   *float64 `json:"subtotal,omitempty"`
 	Details    []Detail `json:"details,omitempty"`
 }
 
 type Detail struct {
-	WarehouseTransactionPriceCalcId *int     `json:"warehouseTransactionPriceCalcId,omitempty"`
+	WarehouseTransactionPriceCalcId *int64   `json:"warehouseTransactionPriceCalcId,omitempty"`
 	NumUnits                        *float64 `json:"numUnits,omitempty"`
 	ChargeLabel                     *string  `json:"chargeLabel,omitempty"`
 	UnitDescription                 *string  `json:"unitDescription,omitempty"`
@@ -419,3 +423,17 @@ type Detail struct {
 	SystemGenerated                 *bool    `json:"systemGenerated,omitempty"`
 	TaxCode                         *string  `json:"taxCode,omitempty"`
 }
+
+// func (s *OrderSerivceOp) Get(ctx context.Context, orderId int64, opts interface{}) (*GetOrder, error) {
+// 	path := fmt.Sprintf("%s/%d", orderPath, orderId)
+// 	resource := new(GetOrder)
+
+// 	endpoint := fmt.Sprintf("%s/%s", baseUrl, path)
+
+// 	req, err := http.NewRequest("GET", endpoint, nil)
+
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// }
