@@ -27,14 +27,14 @@ type accessToken struct {
 }
 
 const (
-	endpoint       string = "https://secure-wms.com/AuthServer/api/Token"
-	host           string = "secure-wms.com"
-	connection     string = "keep-alive"
-	contentType    string = "application/json"
-	accept         string = "application/json"
-	acceptEncoding string = "gzip,deflate,sdch"
-	acceptLanguage string = "en-US,en;q=0.8"
-	grantType      string = "client_credentials"
+	Endpoint       string = "https://secure-wms.com/AuthServer/api/Token"
+	Host           string = "secure-wms.com"
+	Connection     string = "keep-alive"
+	ContentType    string = "application/json"
+	Accept         string = "application/json"
+	AcceptEncoding string = "gzip,deflate,sdch"
+	AcceptLanguage string = "en-US,en;q=0.8"
+	GrantType      string = "client_credentials"
 )
 
 func New(clientId string, clientSecret string, userIdOrLoginName string) *authClient {
@@ -50,7 +50,7 @@ func New(clientId string, clientSecret string, userIdOrLoginName string) *authCl
 func (a *authClient) GetAccessToken(ctx context.Context) (*accessToken, error) {
 
 	values := map[string]string{
-		"grant_type":    grantType,
+		"grant_type":    GrantType,
 		"user_login_id": a.UserIdOrLoginName,
 	}
 
@@ -58,18 +58,18 @@ func (a *authClient) GetAccessToken(ctx context.Context) (*accessToken, error) {
 
 	payload, _ := json.Marshal(values)
 
-	req, err := http.NewRequestWithContext(ctx, "POST", endpoint, bytes.NewBuffer(payload))
+	req, err := http.NewRequestWithContext(ctx, "POST", Endpoint, bytes.NewBuffer(payload))
 
 	if err != nil {
 		return nil, err
 	}
 
-	req.Header.Set("Host", host)
-	req.Header.Set("Connection", connection)
-	req.Header.Set("Content-Type", contentType)
-	req.Header.Set("Accept", accept)
-	req.Header.Set("Accept-Encoding", acceptEncoding)
-	req.Header.Set("Accept-Language", acceptLanguage)
+	req.Header.Set("Host", Host)
+	req.Header.Set("Connection", Connection)
+	req.Header.Set("Content-Type", ContentType)
+	req.Header.Set("Accept", Accept)
+	req.Header.Set("Accept-Encoding", AcceptEncoding)
+	req.Header.Set("Accept-Language", AcceptLanguage)
 	req.Header.Set("Authorization", fmt.Sprintf("Basic %s", a.encodeAuth()))
 
 	res, err := http.DefaultClient.Do(req)
