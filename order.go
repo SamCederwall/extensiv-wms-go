@@ -2,6 +2,8 @@ package extensivWms
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -13,7 +15,7 @@ type OrderService interface {
 	Get(context.Context, int64, interface{}) (*GetOrder, error)
 }
 
-type OrderSerivceOp struct {
+type OrderServiceOp struct {
 	client *Client
 }
 
@@ -424,16 +426,31 @@ type Detail struct {
 	TaxCode                         *string  `json:"taxCode,omitempty"`
 }
 
-// func (s *OrderSerivceOp) Get(ctx context.Context, orderId int64, opts interface{}) (*GetOrder, error) {
-// 	path := fmt.Sprintf("%s/%d", orderPath, orderId)
-// 	resource := new(GetOrder)
+func (s *OrderServiceOp) GetOrder(ctx context.Context, orderId int64, opts interface{}) (*GetOrder, error) {
+	path := fmt.Sprintf("%s/%d", orderPath, orderId)
+	resource := new(GetOrder)
+	err := s.client.Get(ctx, path, resource, opts)
+	return resource, err
+}
 
-// 	endpoint := fmt.Sprintf("%s/%s", baseUrl, path)
+func (s *OrderServiceOp) Get(ctx context.Context, orderId int64, opts interface{}) (*GetOrder, error) {
+	path := fmt.Sprintf("%s/%d", orderPath, orderId)
+	resource := new(GetOrder)
 
-// 	req, err := http.NewRequest("GET", endpoint, nil)
+	endpoint := fmt.Sprintf("%s/%s", baseUrl, path)
 
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	req, err := http.NewRequest("GET", endpoint, nil)
 
-// }
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.client.DoGet(*req, resource)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resource, nil
+
+}
